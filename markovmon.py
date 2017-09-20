@@ -16,8 +16,8 @@ class Markov(object):
 
         self.minlen = 3
         self.maxlen = 13
-        self.mu    = 7.487821380243572
-        self.sigma = 1.473555985631538
+        self.mu    = 6.70
+        self.sigma = 1.60
 
         self.tuples = {}
         self.inits = set()
