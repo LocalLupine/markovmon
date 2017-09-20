@@ -24,7 +24,7 @@ python markovmon.py -h
 python markovmon.py pokemon.txt
 # lybateel
 
-python markovmon.py --num=5 --similarity=3 --init-random pokemon.txt
+python markovmon.py pokemon.txt --similarity=3 --init-random --num=5 
 # inglery
 # gedennekiddo
 # acoong
