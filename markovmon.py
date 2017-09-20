@@ -13,6 +13,7 @@ def zip_keys(word, n=2):
 class Markov(object):
     def __init__(self, corpus_filename, similarity=2):
         self.corpus_filename = corpus_filename
+        self.similarity = similarity
 
         self.minlen = 3
         self.maxlen = 13
@@ -32,19 +33,24 @@ class Markov(object):
 
         self.inits = list(self.inits)
 
-    def generate(self, init_random=False):
+    def generate(self, prefix=None, init_random=False):
         # Pokemon name lengths are between 3 and 12 characters
         # init_random=False: initialize from the start of an existing pokemon
         # init_random=True:  initialize randomly
         length = random.gauss(self.mu, self.sigma)
         length = int(clamp(self.minlen, length, self.maxlen))
 
-        if init_random:
+        word = ''
+
+        if prefix:
+            key = tuple(prefix)
+        elif init_random:
             key = random.choice(list(self.tuples.keys()))
         else:
             key = random.choice(self.inits)
 
         word = ''.join(key).lstrip()
+        key = key[-self.similarity:]
 
         for i in range(length):
             if not key in self.tuples:
@@ -63,15 +69,21 @@ def main():
                         help='number of names to generate')
     parser.add_argument('--similarity', metavar='S', type=int, default=2,
                         help='similarity to input Pokemon names; 1 = gibberish, 2 = okay, >3 = very similar')
+    parser.add_argument('--prefix', type=str, default=None,
+                        help='initialize names using the given prefix, and then generate from there')
     parser.add_argument('--init-random', dest='init_random', action='store_const',
                         const=True, default=False,
                         help='initialize names randomly (default: initialize from the start of an existing Pokemon name)')
 
     args = parser.parse_args()
 
+    if args.prefix and len(args.prefix) < args.similarity:
+        print('Length of prefix ({}) must be greater than or equal to the similarity ({})'.format(len(args.prefix), args.similarity))
+        return
+
     m = Markov(args.filename, similarity=args.similarity)
     for i in range(args.num):
-        print(m.generate(init_random=args.init_random))
+        print(m.generate(prefix=args.prefix, init_random=args.init_random))
 
 if __name__ == "__main__":
     main()
