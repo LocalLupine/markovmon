@@ -3,6 +3,9 @@ import functools
 import random
 import argparse
 
+def clamp(lo, x, hi):
+    return max(lo, min(x, hi))
+
 def zip_keys(word, n=2):
     # Zip a tuple of the each set of <n> consecutive letters with the letter after that
     return zip(zip(*[word[i:] for i in range(n)]), word[n:])
@@ -10,6 +13,11 @@ def zip_keys(word, n=2):
 class Markov(object):
     def __init__(self, corpus_filename, similarity=2):
         self.corpus_filename = corpus_filename
+
+        self.minlen = 3
+        self.maxlen = 13
+        self.mu    = 7.487821380243572
+        self.sigma = 1.473555985631538
 
         self.tuples = {}
         self.inits = set()
@@ -28,7 +36,8 @@ class Markov(object):
         # Pokemon name lengths are between 3 and 12 characters
         # init_random=False: initialize from the start of an existing pokemon
         # init_random=True:  initialize randomly
-        length = random.randint(3, 12)
+        length = random.gauss(self.mu, self.sigma)
+        length = int(clamp(self.minlen, length, self.maxlen))
 
         if init_random:
             key = random.choice(list(self.tuples.keys()))
