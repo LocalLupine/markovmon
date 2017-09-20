@@ -47,16 +47,16 @@ class Markov(object):
         return word
 
 def main():
-    parser = argparse.ArgumentParser(description='Generate new Pokemon names from an input file of known names')
+    parser = argparse.ArgumentParser(description='Generate new Pokemon names from an input file of known names.')
     parser.add_argument('filename', type=str,
-                        help='Input Pokemon name file, names separated by newlines')
-    parser.add_argument('--num', type=int, default=1,
-                        help='Number of names to generate')
+                        help='input Pokemon name file, names separated by newlines')
+    parser.add_argument('--num', metavar='N', type=int, default=1,
+                        help='number of names to generate')
     parser.add_argument('--similarity', metavar='S', type=int, default=2,
-                        help='Similarity to input Pokemon names; 1 = gibberish, 2 = okay, >3 = very similar')
+                        help='similarity to input Pokemon names; 1 = gibberish, 2 = okay, >3 = very similar')
     parser.add_argument('--init-random', dest='init_random', action='store_const',
                         const=True, default=False,
-                        help='Initialize names randomly (default: initialize from the start of an existing Pokemon name)')
+                        help='initialize names randomly (default: initialize from the start of an existing Pokemon name)')
 
     args = parser.parse_args()
 
