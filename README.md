@@ -21,10 +21,10 @@ python markovmon.py -h
 #   --init-random   initialize names randomly (default: initialize from the
 #                   start of an existing Pokemon name)
 
-python markovmon.py pokemon.txt
+python markovmon.py pokemon_en.txt
 # lybateel
 
-python markovmon.py pokemon.txt --similarity=3 --init-random --num=5 
+python markovmon.py pokemon_en.txt --similarity=3 --init-random --num=5 
 # inglery
 # gedennekiddo
 # acoong
